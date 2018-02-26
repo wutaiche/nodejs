@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="../stylesheets/style.css">
+	<link rel="stylesheet" href="../stylesheets/login.css">
+	<script src = "../js/verifyCode.js"></script>
+	<script src ="../js/jquery-1.11.3.js"></script>
+</head>
+<body>
+	<form class="login-body">
+      <div class="login-hd">
+    <img src="images/shopex.png" >
+  </div>
+  <div class="center-wrap" id="centerWrap">
+    <div class="login-center">
+      <div class="bd-logo">
+        <img src="images/ecshop-logo.png"  border="0" alt="ECSHOP">
+      </div>
+    </div>
+    <div class="z-bd"> 
+       <div class="login-panel">
+      <input type="text" id="username" placeholder="用户名" style="margin-top:46px">
+      <input type="password" id="password" placeholder="密码">
+      <div style="position:relative"><input type="text" id="captcha" class="capital" placeholder="验证码">
+                           <div style="position: absolute; right: 8px; top: 8px;">
+                           <a href="javascript:;" id="changeImg">
+                          <canvas  id="canvas" width="102" height="34"></canvas>
+                          </a>
+                           </div>
+      </div>
+      <input type="button" class="btn-a" id = "btn" value="登录">
+       </div>
+     </div>
+  </div>
+   
+    
+
+
+	</form>
+</body>
+</html>
+<script>
+var code=verifyCode("changeImg","canvas");
+$("#changeImg").click(function(){
+    code =verifyCode("changeImg","canvas");
+    console.log(code);
+})
+
+console.log (code);
+
+$("#btn").click(function(){
+    $.ajax({
+      url:"login4ajax",
+      type:"post",
+      data:{username:$("#username").val(),psw:$("#password").val(),code:code,captcha:$("#captcha").val()},
+      success:function(data){
+        console.log(data.mes);
+
+      }
+
+
+    })
+
+})
+
+
+
+</script>
