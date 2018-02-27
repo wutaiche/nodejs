@@ -12,6 +12,24 @@ router.get("/login",function(req,res){
 router.get("/admin",function(req,res){
 	res.render("admin",{});
 })
+// router.get("/test",function(req,res){
+//   //第一次请求为输入网站请求的值，res.render("test")。
+//   //后面的请求为ajax的值，res.render("admin")会返回给success中的data值。
+//    console.log(req.query.template);
+//   if(req.query.template=="login"){
+//   console.log("login");
+//   res.render("login");
+
+// }
+
+//   else if(req.query.template=="admin"){
+//      console.log("admin");
+//     res.render("admin");
+//   }else{
+//     res.render("test");
+//   }
+
+// })
 
 router.post("/login4ajax",function(req,res){
    var username = req.body.username;

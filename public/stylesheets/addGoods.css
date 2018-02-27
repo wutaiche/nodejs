@@ -1,0 +1,36 @@
+.container{
+    /*width:100%;*/
+    height:calc(100% - 20px);
+    background: url(../images/body_bj.jpg);
+    padding: 10px;
+    min-width: 773px;
+    font-family: Microsoft Yahei;
+}
+
+
+
+.head{
+    font-size: 20px;
+    border-bottom: 1px solid #ccc;
+    color: #333;
+    font-weight: normal;
+    padding: 7px 10px;
+    margin: 0 0 10px 0;
+    overflow: hidden;
+
+
+}
+.goodslist{
+    float: right;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 10px 0 23px;
+    background: #c43926 url(../images/icon_add02.gif) no-repeat 6px center;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: normal;
+    text-align: center;
+    cursor: pointer;
+
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+		<script src ="../js/jquery-1.11.3.js"></script>
+</head>
+<body>
+     <button id="p1">p1</button>
+     <button id="p2">p2</button>
+     <div id="p3">
+    
+	 </div>
+</body>
+<script>
+  
+ 
+  $("#p1").click(function(){
+     $.ajax({
+        url:"test",
+        type:"get",
+        data:{template:"login"},
+        success:function(data){
+         $("#p3").html(data);
+
+         
+      }
+
+     })
+
+
+  })
+
+  $("#p2").click(function(){
+   $.ajax({
+        url:"test",
+        type:"get",
+        data:{template:"admin"},
+        success:function(data){
+       $("#p3").html(data);
+
+      }
+
+     })
+
+  })
+
+
+</script>
+</html>
