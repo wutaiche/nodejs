@@ -1,3 +1,12 @@
+input{
+	border:1px solid gray;
+}
+select{
+	vertical-align:middle;
+}
+img{
+	vertical-align: middle;
+}
 .container{
     /*width:100%;*/
     height:calc(100% - 20px);
@@ -32,5 +41,72 @@
     font-weight: normal;
     text-align: center;
     cursor: pointer;
+
+}
+
+.tab-div {
+    background: #f3f3f3;
+    border: 1px solid #d7d7d7;
+    margin: 0 0 10px 0;
+    padding: 1px;
+}
+#tabbar-div {
+    margin-top: 0px;
+    background: #efefef;
+    padding-left: 10px;
+    height: 39px;
+}
+
+.tab-front {
+    background: #fefefe;
+    height: 39px;
+    line-height: 39px;
+    display: block;
+    float: left;
+    padding: 0 20px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.tab-back {
+    padding: 0 20px;
+    text-align: center;
+    font-size: 13px;
+    float: left;
+    display: block;
+    float: left;
+    color: #787878;
+    line-height: 39px;
+    cursor: pointer;
+}
+
+#tabbody-div {
+    padding: 10px;
+    background: #fefefe;
+}
+td.label {
+    text-align: right;
+    vertical-align: top;
+    font-weight: bold;
+    padding: 5px 1em;
+    width: 30%;
+    line-height: 30px;
+}
+
+.goods_info input, .goods_info select {
+    margin: 5px 0;
+    padding: 1px;
+    border: 2px inset;
+}
+.button-div {
+	text-align: center;
+	padding-top:10px;
+}
+.button{
+   margin:2px;
+   padding:5px 15px;
+   border-radius: 5px;
+   background:#ff3f3f;
+   color:white;
 
 }

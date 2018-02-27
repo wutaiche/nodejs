@@ -4,7 +4,7 @@
 
 }
 .main{
-   background:tan;
+   /*background:tan;*/
    position:absolute;
    top:118px;
    bottom:0;
@@ -16,7 +16,7 @@
 .left{width:180px;float:left;background: purple; height:100%;z-index:100}
 .right{height:100%;margin-left:180px;}
 .logo{height:78px;background:#303030; position:relative; }
-.logo .log{ margin-left:30px;margin-top:20px; float:left;}
+.logo .log{ margin-left:30px;margin-top:20px; float:left; background:red;}
 .logo .submenu-div {
 	text-align: center;
     width: 1000px;

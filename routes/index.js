@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var userModel = require("../model/userModel");
+var multiparty = require("multiparty");
+var goodsModel = require("../model/goodsModel");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -11,6 +13,24 @@ router.get("/login",function(req,res){
 });
 router.get("/admin",function(req,res){
 	res.render("admin",{});
+})
+
+router.post("/cart4form",function(req,res){
+    console.log(req.body);
+    var form = new multiparty.Form ({
+      uploadDir:"public/images"
+    })
+    form.parse(req,function(err,fields,files){
+        console.log(files);
+        console.log(fields);
+         // var goods_name = fields.goods_name[0];
+         // var price = fields.price[0];
+         // var detail = fields.detail[0];
+         // var size = files["img"][0].size;
+         // var img = files["img"][0].path;
+         // var name = files["img"][0].originalFilename;
+
+    })
 })
 // router.get("/test",function(req,res){
 //   //第一次请求为输入网站请求的值，res.render("test")。
