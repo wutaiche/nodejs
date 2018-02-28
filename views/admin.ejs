@@ -54,8 +54,8 @@
  <div>
   <ul class="menu-ul">
   <li class="lis icon1">  商品管理  
-     <ul> <li class="menu-item" > 商品列表	</li>	
-          <li class="menu-item" > 添加新产品	</li>
+     <ul> <li class="menu-item goodsList" > 商品列表	</li>	
+          <li class="menu-item addGoods" > 添加新产品	</li>
           <li class="menu-item" > 商品分类	</li>
           <li class="menu-item" > 用户评论	</li>
           <li class="menu-item" > 商品品牌	</li>
@@ -302,6 +302,32 @@
         	$(this).removeClass("icon"+index+"_1").addClass("icon"+index);
             $(this).find("ul").css("display","none");
         }
+         
+      })
+      $(".menu-item").click(function(e){
+          e.stopPropagation();
+      });
+      $(".goodsList").click(function(){
+         $.ajax({
+           url:"goodsList",
+           type:"get",
+           success:function(data){
+            $(".right").html(data);
+           }
+
+         })
+
+      });
+      $(".addGoods").click(function(){
+         $.ajax({
+           url:"addGoods",
+           success:function(data){
+            $(".right").html(data);
+           }
+
+         })
 
       })
+
+
 </script>

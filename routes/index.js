@@ -14,6 +14,43 @@ router.get("/login",function(req,res){
 router.get("/admin",function(req,res){
 	res.render("admin",{});
 })
+router.get("/goodsList",function(req,res){
+    // goodsModel.find({},function(err,docs){
+    //     if(!err){
+    //         var data = docs;
+    //         goodsModel.count({},function(err,count){
+    //           var count = count;
+    //           res.render("goodsList",{data,count})
+    //         })
+
+
+
+    //     }
+       
+
+    // });
+   // console.log(req.query);
+    var pageCurrent = req.query.pageCurrent||1;
+    var pageSize = req.query.pageSize||2;
+    goodsModel.find({})
+        .skip((pageCurrent-1)* pageSize)
+        .limit(pageSize)
+        .sort({'_id':-1})
+        .exec(function(err,docs){
+          if(!err){
+            var data = docs;
+            goodsModel.count({},function(err,count){
+              var count = count;
+              res.render("goodsList",{data,count})
+            })
+           }
+
+        });
+
+})
+router.get("/addGoods",function(req,res){
+    res.render("addGoods");
+})
 
 router.post("/cart4form",function(req,res){
     console.log(req.body);
@@ -23,12 +60,30 @@ router.post("/cart4form",function(req,res){
     form.parse(req,function(err,fields,files){
         console.log(files);
         console.log(fields);
-         // var goods_name = fields.goods_name[0];
-         // var price = fields.price[0];
-         // var detail = fields.detail[0];
-         // var size = files["img"][0].size;
-         // var img = files["img"][0].path;
-         // var name = files["img"][0].originalFilename;
+         var goods_name = fields.goods_name[0];
+         var goods_sn = fields.goods_sn[0];
+         var goods_category = fields.goods_category[0];
+         var goods_brand  = fields.goods_brand[0];
+         var shop_price  = fields.shop_price[0];
+         var virtual_sales = fields.virtual_sales[0];
+         var img = files["goods_img"][0].path;
+         var goods_img = img.substr(img.lastIndexOf("\\")+1);
+
+         var gm =new goodsModel();
+         gm.goods_name=goods_name;
+         gm.goods_sn = goods_sn;
+         gm.goods_category = goods_category;
+         gm.goods_brand = goods_brand;
+         gm.shop_price =shop_price;
+         gm.virtual_sales = virtual_sales;
+         gm.goods_img =goods_img;
+         gm.save(function(err){
+          if(!err){
+            res.send("商品添加成功");
+          }else{
+            res.send("商品添加失败");
+          }
+         })
 
     })
 })

@@ -1,0 +1,148 @@
+<link rel="stylesheet" href="../stylesheets/goodsList.css">
+<div class="container"> 
+<div class= "head">
+<p style="float:left;margin-right: 10px"> <a href="#"> ECSHOP 管理中心 </a> - 商品列表</p>
+<img src="../images/jnsy.png"/>
+<a href="#" class="goodslist">添加新商品</a>
+</div>
+<div  class="form-div">
+    <img src="../images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH">
+    关键字 <input type="text"  class="keyword" name="keyword" size="15">
+    <input type="button" value=" 搜索 " class="button">
+  </div>
+<div class="list-div" id="listDiv"><!-- $Id: goods_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+
+<table cellpadding="3" cellspacing="1">
+  <tbody><tr>
+    <th>
+      <input type="checkbox">
+      <a href="#">编号</a>   </th>
+    <th><a href="#">商品名称</a></th>
+    <th><a href="#">货号</a></th>
+    <th><a href="#">价格</a></th>
+    <th><a href="#">上架</a></th>
+    <th><a href="#">精品</a></th>
+    <th><a href="#">新品</a></th>
+    <th><a href="#">热销</a></th>
+    <th><a href="#">推荐排序</a></th>
+    <th><a href="#">库存</a></th>
+    <th><a href="#">虚拟销量</a></th>
+    <th>操作</th>
+  </tr>
+  <% for (var i = 0 ,len = data.length;i < len ; i++) {%>
+    <tr>
+    <td ><input type="checkbox" name="checkboxes[]" value="<% i %>"><% i %></td>
+    <td><span><%= data[i].goods_name%> </span></td>
+    <td><span><%= data[i].goods_sn%> </span></td>
+    <td><span><%= data[i].shop_price%> </span></td>
+    <td ><img src="../images/yes.gif"></td>
+    <td ><img src="../images/yes.gif"></td>
+    <td ><img src="../images/yes.gif"></td>
+    <td ><img src="../images/yes.gif"></td>
+    <td><span>100</span></td>
+    <td><span>100</span></td>
+    <td><span><%= data[i].virtual_sales%> </span></td>
+    <td>
+      <a href="#" target="_blank" title="查看"><img src="../images/icon_view.gif" width="21" height="21" border="0"></a>
+      <a href="#" title="编辑"><img src="../images/icon_edit.gif" width="21" height="21" border="0"></a>
+      <a href="#" title="复制"><img src="../images/icon_copy.gif" width="21" height="21" border="0"></a>
+      <a href="javascript:;" title="回收站"><img src="../images/icon_trash.gif" width="21" height="21" border="0"></a>
+              </td>
+      </tr>
+<%}%>
+  
+    
+    
+    
+    
+    
+ 
+  </tbody>
+  </table>
+  <div id="turn-page">
+        总计  <span id="totalRecords"><%= count %></span>
+        个记录分为 <span id="totalPages"> </span>
+        页当前第 <span id="pageCurrent">1</span>
+        页，每页 <input type="text" size="3" id="pageSize" value="2" onkeypress="return listTable.changePageSize(event)">
+        <span id="page-link">
+          <a href="javascript:gotoPageFirst()">第一页</a>
+          <a href="javascript:gotoPagePrev()">上一页</a>
+          <a href="javascript:gotoPageNext()">下一页</a>
+          <a href="javascript:gotoPageLast()">最末页</a>
+          <select id="gotoPage" onchange="listTable.gotoPage(this.value)">
+          </select>
+        </span>
+      </div>
+
+
+</div>
+<script>
+var pageCurrent ;
+var totalPages;
+function init(){
+	//console.log(($("#totalRecords").text()-1)/$("#pageSize").val()+1);
+ totalPages= parseInt(($("#totalRecords").text()-1)/$("#pageSize").val()+1);
+  $("#totalPages").text(totalPages);
+  for (var i =0 ;i < totalPages ; i++){
+      var option = `<option value="${i+1}">${i+1}</option>`
+      $("#gotoPage").append(option);
+
+  }
+}
+
+init();
+
+
+
+function gotoPageNext(){
+	 pageCurrent = 1;
+	 //console.log(pageCurrent);
+	if(pageCurrent < totalPages){
+		//console.log(1,pageCurrent);
+          pageCurrent ++;
+         $.ajax({
+	      url:"goodsList",
+	      data:{pageCurrent},
+	      success:function(data){
+	      	//  console.log(1);
+              $(".container").html(data);
+	      }
+
+
+   		})
+	}
+	
+  
+
+}
+
+function gotoPagePrev(){
+	 console.log(pageCurrent);
+	if(pageCurrent > 1){
+		console.log(1,pageCurrent);
+         pageCurrent --;
+         $.ajax({
+	      url:"goodsList",
+	      data:{pageCurrent},
+	      success:function(data){
+	      	 // console.log(1);
+              $(".container").html(data);
+	      }
+
+
+   		})
+	}
+	
+  
+
+}
+
+
+
+
+
+
+
+
+
+</script>

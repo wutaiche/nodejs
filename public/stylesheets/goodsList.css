@@ -1,0 +1,30 @@
+@import url("addGoods.css");
+.form-div {
+    background: #f3f3f3 url("../images/th_bg.gif") repeat-x;
+    border: 1px solid #ddd;
+    padding: 5px;
+    color: #808080;
+    margin: 0 0 10px 0;
+}
+.keyword{
+	padding:2px 0;
+}
+.list-div table {
+    width: 100%;
+    background: #ddd;
+    text-align: center;
+}
+.list-div th {
+    line-height: 39px;
+    background: #f3f3f3 url("../images/th_bg.gif") repeat-x;
+    white-space: nowrap;
+}
+
+.list-div td {
+    background: #fff;
+    padding: 10px;
+    line-height: 39px;
+}
+#turn-page{
+	text-align: center;
+}
