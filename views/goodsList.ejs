@@ -31,7 +31,7 @@
   </tr>
   <% for (var i = 0 ,len = data.length;i < len ; i++) {%>
     <tr>
-    <td ><input type="checkbox" name="checkboxes[]" value="<% i %>"><% i %></td>
+    <td ><input type="checkbox" name="checkboxes[]" value="data[i].goods_num"><%= data[i].goods_num%></td>
     <td><span><%= data[i].goods_name%> </span></td>
     <td><span><%= data[i].goods_sn%> </span></td>
     <td><span><%= data[i].shop_price%> </span></td>
@@ -43,10 +43,10 @@
     <td><span>100</span></td>
     <td><span><%= data[i].virtual_sales%> </span></td>
     <td>
-      <a href="#" target="_blank" title="查看"><img src="../images/icon_view.gif" width="21" height="21" border="0"></a>
-      <a href="#" title="编辑"><img src="../images/icon_edit.gif" width="21" height="21" border="0"></a>
-      <a href="#" title="复制"><img src="../images/icon_copy.gif" width="21" height="21" border="0"></a>
-      <a href="javascript:;" title="回收站"><img src="../images/icon_trash.gif" width="21" height="21" border="0"></a>
+      <a  href="javascript:;"  title="查看"><img src="../images/icon_view.gif" width="21" height="21" border="0"></a>
+      <a href="javascript:;"onclick="editGoods(this)" title="编辑"><img src="../images/icon_edit.gif" width="21" height="21" border="0"></a>
+      <a href="javascript:;" title="复制"><img src="../images/icon_copy.gif" width="21" height="21" border="0"></a>
+      <a href="javascript:;" onclick="deleteGoods(this)" title="回收站"><img src="../images/icon_trash.gif" width="21" height="21" border="0"></a>
               </td>
       </tr>
 <%}%>
@@ -61,15 +61,22 @@
   </table>
   <div id="turn-page">
         总计  <span id="totalRecords"><%= count %></span>
-        个记录分为 <span id="totalPages"> </span>
-        页当前第 <span id="pageCurrent">1</span>
-        页，每页 <input type="text" size="3" id="pageSize" value="2" onkeypress="return listTable.changePageSize(event)">
+        个记录分为 <span id="totalPages"><%= totalPages %> </span>
+        页当前第 <span id="pageCurrent"><%= pageCurrent %></span>
+        页，每页 <input type="text" size="3" id="pageSize" value="<%= pageSize%>" onblur="pageSizeChange(this.value)">
         <span id="page-link">
           <a href="javascript:gotoPageFirst()">第一页</a>
           <a href="javascript:gotoPagePrev()">上一页</a>
           <a href="javascript:gotoPageNext()">下一页</a>
           <a href="javascript:gotoPageLast()">最末页</a>
-          <select id="gotoPage" onchange="listTable.gotoPage(this.value)">
+          <select id="gotoPage" onchange="gotoPage(this.value)">
+          <% for (var i = 1 ;i <= totalPages ; i++) {%>
+            <% if (i==pageCurrent){%>
+           <option value = "<%- i%>" selected="selected"><%- i%></option>
+             <% continue;}%>
+
+            <option value = "<%- i%>"><%- i%></option>
+          <% }%>
           </select>
         </span>
       </div>
@@ -77,55 +84,77 @@
 
 </div>
 <script>
-var pageCurrent ;
+var pageCurrent = "<%= pageCurrent%>" ;
+
+var count = "<%= count %>";
+var pageSize = "<%= pageSize%>";
 var totalPages;
-function init(){
+//var totalPages;
+//var totalPages = "<%= totalPages%>";
 	//console.log(($("#totalRecords").text()-1)/$("#pageSize").val()+1);
- totalPages= parseInt(($("#totalRecords").text()-1)/$("#pageSize").val()+1);
-  $("#totalPages").text(totalPages);
-  for (var i =0 ;i < totalPages ; i++){
-      var option = `<option value="${i+1}">${i+1}</option>`
-      $("#gotoPage").append(option);
+ 
+  //$("#totalPages").text(totalPages);
+  //$("#pageCurrent").text(pageCurrent);
+//   for (var i =0 ;i < totalPages ; i++){
+//       var option = `<option value="${i+1}">${i+1}</option>`
+//       $("#gotoPage").append(option);
 
-  }
-}
 
-init();
+//   }
+   
+//    //$("#gotoPage").get(0).selectedIndex = pageCurrent+1;
+// }
 
 
 
 function gotoPageNext(){
-	 pageCurrent = 1;
+	 totalPages = $("#totalPages").text();
+   // var prePages = "<%= pageCurrent%>"
+	 //pageCurrent = 1;
 	 //console.log(pageCurrent);
+	// var totalPages = "<%= totalPages%>";
+	   //console.log(totalPages);
+
 	if(pageCurrent < totalPages){
+
 		//console.log(1,pageCurrent);
           pageCurrent ++;
+       }
          $.ajax({
 	      url:"goodsList",
-	      data:{pageCurrent},
+	      data:{pageCurrent,pageSize},
 	      success:function(data){
 	      	//  console.log(1);
+	      	  // init();
               $(".container").html(data);
 	      }
 
 
    		})
-	}
+	
 	
   
 
 }
 
 function gotoPagePrev(){
-	 console.log(pageCurrent);
+	 totalPages = $("#totalPages").text();
+	 //console.log(pageCurrent);
+	// var totalPages = "<%= totalPages%>";
+	//  console.log(totalPages);
 	if(pageCurrent > 1){
-		console.log(1,pageCurrent);
+		//console.log(1,pageCurrent);
          pageCurrent --;
+       if(pageCurrent > totalPages){
+       	  console.log(1);
+       	  pageCurrent = totalPages;
+       }
          $.ajax({
 	      url:"goodsList",
-	      data:{pageCurrent},
+	      data:{pageCurrent,pageSize},
 	      success:function(data){
 	      	 // console.log(1);
+	      	  // init();
               $(".container").html(data);
 	      }
 
@@ -133,16 +162,92 @@ function gotoPagePrev(){
    		})
 	}
 	
-  
+}
+
+function gotoPageFirst(){
+	 pageCurrent =1;
+    $.ajax({
+	      url:"goodsList",
+	      data:{pageCurrent,pageSize},
+	      success:function(data){
+	      	 // console.log(1);
+	      	  // init();
+              $(".container").html(data);
+	      }
+		})
+}
+
+function gotoPageLast(){
+	 pageCurrent = totalPages;
+    $.ajax({
+	      url:"goodsList",
+	      data:{pageCurrent,pageSize},
+	      success:function(data){
+	      	 // console.log(1);
+	      	  // init();
+              $(".container").html(data);
+	      }
+		})
+}
+
+function gotoPage(value){
+     pageCurrent = value;
+    // $("#gotoPage").get(0).selectedIndex=value;
+     $.ajax({
+	      url:"goodsList",
+	      data:{pageCurrent,pageSize},
+	      success:function(data){
+	      	 // console.log(1);
+	      	  // init();
+              $(".container").html(data);
+	      }
+		});
+
 
 }
 
+function pageSizeChange(value){
+    var size = parseInt(value);
+   if(isNaN(size)||size<0||size>count){
+   	  alert("请输入有效数字");
+   	   $("#pageSize").val(pageSize);
+   	  return 
+   }
+     pageSize = size;
+     $("#totalPages").text(parseInt((count-1)/pageSize)+1);
 
+};
 
+function deleteGoods(value){
+	if(confirm("是否确认把该商品放入回收站"))
+     {
+     	var goods_num = $(value).parent().parent().find('td').first().text();
+        $.ajax({
+	      url:"goodsList",
+	      data:{flag:"delete",pageCurrent,pageSize,goods_num},
+	      success:function(data){
+	      	 // console.log(1);
+	      	  // init();
+              $(".container").html(data);
+	      }
+		});
+   
+   	
+   	}
+}
 
+function editGoods(value){
+   var goods_num = $(value).parent().parent().find('td').first().text();
+     $.ajax({
+	      url:"editGoods",
+	      data:{goods_num},
+	      success:function(data){
+	      	 // console.log(1);
+	      	  // init();
+              $(".container").html(data);
+	      }
+		});
 
-
-
-
+}
 
 </script>

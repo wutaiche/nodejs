@@ -3,6 +3,7 @@ var router = express.Router();
 var userModel = require("../model/userModel");
 var multiparty = require("multiparty");
 var goodsModel = require("../model/goodsModel");
+var fs = require("fs");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -30,20 +31,55 @@ router.get("/goodsList",function(req,res){
 
     // });
    // console.log(req.query);
+    var flag = req.query.flag||"";
     var pageCurrent = req.query.pageCurrent||1;
-    var pageSize = req.query.pageSize||2;
+    var pageSize = parseInt(req.query.pageSize)||2;
+   // console.log(pageSize);
+    if(flag =="delete"){
+     var goods_num = req.query.goods_num;
+     goodsModel.remove({goods_num},function(err){
+        if(!err){
+            goodsModel.find({})
+        .skip((pageCurrent-1)* pageSize)
+        .limit(pageSize)
+        .sort({'_id':-1})
+        .exec(function(err,docs){
+
+          if(!err){
+            //console.log(docs);
+            var data = docs;
+            goodsModel.count({},function(err,count){
+              var count = count;
+              var totalPages= parseInt((count-1)/pageSize)+1;
+
+              res.render("goodsList",{data,count,totalPages,pageCurrent,pageSize});
+            })
+           }
+          // console.log(err);
+
+        });
+          return;
+
+        }
+     })
+    };
     goodsModel.find({})
         .skip((pageCurrent-1)* pageSize)
         .limit(pageSize)
         .sort({'_id':-1})
         .exec(function(err,docs){
+
           if(!err){
+            //console.log(docs);
             var data = docs;
             goodsModel.count({},function(err,count){
               var count = count;
-              res.render("goodsList",{data,count})
+              var totalPages= parseInt((count-1)/pageSize)+1;
+
+              res.render("goodsList",{data,count,totalPages,pageCurrent,pageSize});
             })
            }
+          // console.log(err);
 
         });
 
@@ -51,6 +87,51 @@ router.get("/goodsList",function(req,res){
 router.get("/addGoods",function(req,res){
     res.render("addGoods");
 })
+
+router.get("/editGoods",function(req,res){
+   var goods_num = req.query.goods_num;
+   console.log(goods_num);
+   goodsModel.find({goods_num},function(err,docs){
+       console.log(docs);
+       res.render("editGoods",{data:docs});
+   })
+})
+
+router.post("/edit4form",function(req,res){
+   var form = new multiparty.Form ({
+      uploadDir:"public/images"
+    })
+    form.parse(req,function(err,fields,files){
+        console.log(files);
+        console.log(fields);
+         var goods_name = fields.goods_name[0];
+         var goods_sn = fields.goods_sn[0];
+         //var goods_num = Date.now();
+         var goods_category = fields.goods_category[0];
+         var goods_brand  = fields.goods_brand[0];
+         var shop_price  = fields.shop_price[0];
+         var virtual_sales = fields.virtual_sales[0];
+         var goods_num = fields.goods_num[0];
+         var img = files["goods_img"][0].path;
+         var size = files["goods_img"][0].size;
+         var goods_img;
+         if(size==0){
+             fs.unlink(img);
+              goods_img="";
+         }else{
+          goods_img = img.substr(img.lastIndexOf("\\")+1);
+           }
+         goodsModel.update({goods_num},{goods_name,goods_sn,goods_category,goods_brand,
+          shop_price,virtual_sales,goods_img},function(err,docs){
+               if(!err){
+                 res.send("商品修改成功");
+               }else{
+                 res.send("商品修改失败");
+               }
+          })
+    })
+});
+
 
 router.post("/cart4form",function(req,res){
     console.log(req.body);
@@ -62,14 +143,23 @@ router.post("/cart4form",function(req,res){
         console.log(fields);
          var goods_name = fields.goods_name[0];
          var goods_sn = fields.goods_sn[0];
+         var goods_num = Date.now();
          var goods_category = fields.goods_category[0];
          var goods_brand  = fields.goods_brand[0];
          var shop_price  = fields.shop_price[0];
          var virtual_sales = fields.virtual_sales[0];
-         var img = files["goods_img"][0].path;
-         var goods_img = img.substr(img.lastIndexOf("\\")+1);
 
+         var img = files["goods_img"][0].path;
+         var size = files["goods_img"][0].size;
+         var goods_img;
+         if(size==0){
+             fs.unlink(img);
+              goods_img="";
+         }else{
+          goods_img = img.substr(img.lastIndexOf("\\")+1);
+           }
          var gm =new goodsModel();
+         gm.goods_num = goods_num;
          gm.goods_name=goods_name;
          gm.goods_sn = goods_sn;
          gm.goods_category = goods_category;
@@ -81,6 +171,7 @@ router.post("/cart4form",function(req,res){
           if(!err){
             res.send("商品添加成功");
           }else{
+            console.log(err);
             res.send("商品添加失败");
           }
          })

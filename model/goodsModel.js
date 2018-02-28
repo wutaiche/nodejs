@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var goods = new Schema({
     goods_name: String,
-    goods_sn    : String,
+    goods_sn    : {type:String, unique:true },
     goods_category:String,
     goods_brand :String,
     shop_price:String,
@@ -14,7 +14,10 @@ var goods = new Schema({
 
     create_date :{
     	         type:Date,default:Date.now
-    }
+    },
+    goods_num :{
+                 type:Number, unique:true 
+    },
 
 
 
