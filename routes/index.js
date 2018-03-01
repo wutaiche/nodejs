@@ -36,6 +36,7 @@ router.get("/goodsList",function(req,res){
     var pageSize = parseInt(req.query.pageSize)||2;
    // console.log(pageSize);
     if(flag =="delete"){
+
      var goods_num = req.query.goods_num;
      goodsModel.remove({goods_num},function(err){
         if(!err){
@@ -62,6 +63,39 @@ router.get("/goodsList",function(req,res){
 
         }
      })
+    };
+
+    if(flag =="search"){
+     
+     var value = req.query.value;
+     console.log(value);
+     var query = {};
+     query['goods_name']=new RegExp(value);
+      goodsModel.find(query)
+        .skip((pageCurrent-1)* pageSize)
+        .limit(pageSize)
+        .sort({'_id':-1})
+        .exec(function(err,docs){
+
+          if(!err){
+            //console.log(docs);
+            var data = docs;
+             console.log(data);
+              var count = data.length;
+              var totalPages= parseInt((count-1)/pageSize)+1;
+               console.log(count);
+              res.render("goodsList",{data,count,totalPages,pageCurrent,pageSize});
+            
+
+           }
+          // console.log(err);
+
+        
+         
+
+        
+     })
+        return;
     };
     goodsModel.find({})
         .skip((pageCurrent-1)* pageSize)

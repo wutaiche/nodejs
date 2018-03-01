@@ -307,10 +307,13 @@
       $(".menu-item").click(function(e){
           e.stopPropagation();
       });
+     // var flag =""
       $(".goodsList").click(function(){
+        //  console.log(value);
          $.ajax({
            url:"goodsList",
            type:"get",
+          // data:{flag}
            success:function(data){
             $(".right").html(data);
            }
@@ -328,6 +331,6 @@
          })
 
       })
-
+     
 
 </script>

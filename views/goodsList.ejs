@@ -7,8 +7,8 @@
 </div>
 <div  class="form-div">
     <img src="../images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH">
-    关键字 <input type="text"  class="keyword" name="keyword" size="15">
-    <input type="button" value=" 搜索 " class="button">
+    关键字 <input type="text"  id="keyword" name="keyword"  size="15">
+    <input type="button" value=" 搜索 "   onclick ="search()" class="button">
   </div>
 <div class="list-div" id="listDiv"><!-- $Id: goods_list.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
 
@@ -84,11 +84,15 @@
 
 </div>
 <script>
-var pageCurrent = "<%= pageCurrent%>" ;
-
+var pageCurrent;
+//var flag = flag ||"";
 var count = "<%= count %>";
 var pageSize = "<%= pageSize%>";
 var totalPages;
+console.log(pageCurrent);
+//console.log(1,2);
+//var value = value||"";
+//console.log(2);
 //var totalPages;
 //var totalPages = "<%= totalPages%>";
 	//console.log(($("#totalRecords").text()-1)/$("#pageSize").val()+1);
@@ -105,19 +109,41 @@ var totalPages;
 //    //$("#gotoPage").get(0).selectedIndex = pageCurrent+1;
 // }
 
+function search(){
+   var flag = "search" ;
+   var value = $("#keyword").val();
+    console.log(value);
+    $.ajax({
+        url:"goodslist",
+        data:{value,flag:"search"},
+        success:function(data){
+	      	//  console.log(1);
+	      	  // init();
+	      	//  console.log(data);
+              $(".right").html(data);
+	      }
 
+    });
+
+}
 
 function gotoPageNext(){
+	pageCurrent = "<%= pageCurrent%>" 
 	 totalPages = $("#totalPages").text();
+	 console.log(totalPages);
+	 console.log("page",pageCurrent);
+	 //console.log(value);
+	// console.log(flag);
+	// console.log(totalPages);
    // var prePages = "<%= pageCurrent%>"
 	 //pageCurrent = 1;
 	 //console.log(pageCurrent);
 	// var totalPages = "<%= totalPages%>";
 	   //console.log(totalPages);
+    //console.log(total)
+	if(parseInt(pageCurrent) < parseInt(totalPages) ){
 
-	if(pageCurrent < totalPages){
-
-		//console.log(1,pageCurrent);
+		console.log(pageCurrent == totalPages);
           pageCurrent ++;
        }
          $.ajax({
@@ -126,7 +152,7 @@ function gotoPageNext(){
 	      success:function(data){
 	      	//  console.log(1);
 	      	  // init();
-              $(".container").html(data);
+              $(".right").html(data);
 	      }
 
 
@@ -155,7 +181,7 @@ function gotoPagePrev(){
 	      success:function(data){
 	      	 // console.log(1);
 	      	  // init();
-              $(".container").html(data);
+              $(".right").html(data);
 	      }
 
 
@@ -172,7 +198,7 @@ function gotoPageFirst(){
 	      success:function(data){
 	      	 // console.log(1);
 	      	  // init();
-              $(".container").html(data);
+              $(".right").html(data);
 	      }
 		})
 }
@@ -185,7 +211,7 @@ function gotoPageLast(){
 	      success:function(data){
 	      	 // console.log(1);
 	      	  // init();
-              $(".container").html(data);
+              $(".right").html(data);
 	      }
 		})
 }
@@ -199,7 +225,7 @@ function gotoPage(value){
 	      success:function(data){
 	      	 // console.log(1);
 	      	  // init();
-              $(".container").html(data);
+              $(".right").html(data);
 	      }
 		});
 
@@ -228,7 +254,7 @@ function deleteGoods(value){
 	      success:function(data){
 	      	 // console.log(1);
 	      	  // init();
-              $(".container").html(data);
+              $(".right").html(data);
 	      }
 		});
    
@@ -244,10 +270,11 @@ function editGoods(value){
 	      success:function(data){
 	      	 // console.log(1);
 	      	  // init();
-              $(".container").html(data);
+              $(".right").html(data);
 	      }
 		});
 
 }
+
 
 </script>
