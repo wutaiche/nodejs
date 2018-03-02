@@ -10,7 +10,15 @@
 <div class="tab-div">
 <div id="tabbar-div">
       <p>
-        <span class="tab-front" id="general-tab">通用信息</span><span class="tab-back" id="detail-tab">详细描述</span><span class="tab-back" id="mix-tab">其他信息</span><span class="tab-back" id="properties-tab">商品属性</span><span class="tab-back" id="gallery-tab">商品相册</span><span class="tab-back" id="linkgoods-tab">关联商品</span><span class="tab-back" id="groupgoods-tab">配件</span><span class="tab-back" id="article-tab">关联文章</span>
+        <span class="tab-front" >通用信息</span>
+        <span class="tab-back">详细描述</span>
+        <span></span>
+        <span class="tab-back" >其他信息</span>
+        <span class="tab-back" >商品属性</span>
+        <span class="tab-back" >商品相册</span>
+        <span class="tab-back" >关联商品</span>
+        <span class="tab-back" >配件</span>
+        <span class="tab-back">关联文章</span>
       </p>
     </div>
     <div id="tabbody-div">
@@ -69,6 +77,222 @@
           </tr>
           </tbody>
           </table>
+          <table  style="display:none">
+            <tbody>
+              <tr>
+                  <td>
+                    <textarea id="container" name="content"></textarea>
+                    
+                      
+                          
+                      
+
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+
+  
+          <table style="display:none;" align ="center" id = "test" >
+            <tbody>
+             <tr>
+            <td class="label">商品重量：</td>
+            <td><input type="text"   size="15"/>
+              <select>
+              <option value="">千克</option>
+              <option value="strong">克</option> </select> </td></tr>
+              <tr>
+              <td class="label">
+            <a href="javascript:;" title="点击此处查看提示信息" class="notice"><img src="../images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息"></a> 商品库存数量： </td>
+            <td><input type="text" name="goods_sn" value="" size="20" ><span id="goods_sn_notice"></span><br>
+            <span class="notice-span" style="display:block" >库存在商品为虚货或商品存在货品时为不可编辑状态，库存数值取决于其虚货数量或货品数量</span></td>
+          </tr>
+          <tr>
+            <td class="label">库存警告数量：</td>
+            <td><input type="text"   size="15"/>
+            </td></tr>
+            <tr>
+            <td class="label">加入推荐：</td>
+            <td><input type="checkbox" name="is_best" value="1">精品 <input type="checkbox" name="is_new" value="1">新品 <input type="checkbox" name="is_hot" value="1">热销</td>
+          </tr>
+          <tr id="alone_sale_1">
+            <td class="label" id="alone_sale_2">上架：</td>
+            <td id="alone_sale_3"><input type="checkbox" name="is_on_sale" value="1" checked="checked"> 打勾表示允许销售，否则不允许销售。</td>
+          </tr>
+          <tr>
+            <td class="label">能作为普通商品销售：</td>
+            <td><input type="checkbox" name="is_alone_sale" value="1" checked="checked"> 打勾表示能作为普通商品销售，否则只能作为配件或赠品销售。</td>
+          </tr>
+          <tr>
+            <td class="label">是否为免运费商品</td>
+            <td><input type="checkbox" name="is_shipping" value="1"> 打勾表示此商品不会产生运费花销，否则按照正常运费计算。</td>
+          </tr>
+          <tr>
+            <td class="label">商品关键词：</td>
+            <td><input type="text" name="keywords" value="" size="40"> 用空格分隔</td>
+          </tr>
+          <tr>
+            <td class="label">商品简单描述：</td>
+            <td><textarea name="goods_brief" cols="40" rows="3"></textarea></td>
+          </tr>
+          <tr>
+            <td class="label">
+            <a href="javascript:;" title="点击此处查看提示信息" class="notice"><img src="../images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息"></a> 商家备注： </td>
+            <td><textarea name="seller_note" cols="40" rows="3"></textarea><br>
+            <span class="notice-span" style="display:block" id="noticeSellerNote">仅供商家自己看的信息</span></td>
+          </tr>
+            </tbody>
+          </table>
+          <table style="display:none;text-align:center">
+            <tbody>
+              <tr>
+              <td class="label"><a href="javascript:;" title="点击此处查看提示信息" class="notice"><img src="images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息"></a>商品类型：</td>
+              <td>
+                <select name="goods_type" onchange="getAttrList(0)">
+                  <option value="0">请选择商品类型</option>
+                  <option value="1">书</option><option value="2">音乐</option><option value="3">电影</option><option value="4">手机</option><option value="5">笔记本电脑</option><option value="6">数码相机</option><option value="7">数码摄像机</option><option value="8">化妆品</option><option value="9">精品手机</option><option value="14">服装</option><option value="12">液晶电视</option><option value="15">美妆</option><option value="16">书</option><option value="17">音乐</option><option value="18">电影</option><option value="19">手机</option><option value="20">笔记本电脑</option><option value="21">数码相机</option><option value="22">数码摄像机</option><option value="23">化妆品</option><option value="24">精品手机</option>                </select><br>
+              <span class="notice-span" style="display:block" id="noticeGoodsType">请选择商品的所属类型，进而完善此商品的属性</span></td>
+          </tr>
+            </tbody>
+          </table>
+          <table style="display:none;" align ="center">
+            <tbody>
+              <tr>
+            <td>
+              <a href="javascript:;">[+]</a>
+              图片描述 <input type="text" name="img_desc[]" size="20">
+              上传文件 <input type="file" name="img_url[]">
+              <input type="text" size="40" value="或者输入外部图片链接地址" style="color:#aaa;" onfocus="if (this.value == '或者输入外部图片链接地址'){this.value='http://';this.style.color='#000';}" name="img_file[]">
+            </td>
+          </tr>
+            </tbody>
+          </table>
+          <table style="display:none" align ="center">
+            <tbody>
+              <tr>
+            <td colspan="3">
+              <img src="../images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH">
+              <select name="cat_id1">
+              <option value="330">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手提包</option>
+              <option value="327">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手拿包</option>
+              <option value="331">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;斜挎包</option>
+              <option value="328">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单肩包</option></select>
+             
+              <select name="brand_id1">
+              <option value="20">茵佳妮</option>
+              <option value="15">乐华</option>
+              <option value="14">创维</option>
+              <option value="13">索尼</option>
+              <option value="1">有讯网络</option></select>
+              <input type="text" name="keyword1">
+              <input type="button" value=" 搜索 " class="button">
+            </td>
+          </tr>
+          <tr>
+            <th>可选商品</th>
+            <th>操作</th>
+            <th>跟该商品关联的商品</th>
+          </tr>
+          <tr>
+            <td width="42%">
+              <select name="source_select1" size="20" style="width:100%"  multiple="true">
+              </select>
+            </td>
+            <td align="center">
+              <p><input name="is_single" type="radio" value="1" checked="checked">单向关联<br><input name="is_single" type="radio" value="0">双向关联</p>
+              <p><input type="button" value=">>" class="button"></p>
+              <p><input type="button" value=">"  class="button"></p>
+              <p><input type="button" value="<"  class="button"></p>
+              <p><input type="button" value="<<" class="button"></p>
+            </td>
+            <td width="42%">
+              <select name="target_select1" size="20" style="width:100%" multiple="true" >
+                              </select>
+            </td>
+          </tr>
+            </tbody>
+          </table>
+          <table style="display:none" align ="center">
+            <tbody>
+               <tr>
+            <td colspan="3">
+              <img src="../images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH">
+              <select name="cat_id1">
+              <option value="330">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手提包</option>
+              <option value="327">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;手拿包</option>
+              <option value="331">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;斜挎包</option>
+              <option value="328">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;单肩包</option></select>
+             
+              <select name="brand_id1">
+              <option value="20">茵佳妮</option>
+              <option value="15">乐华</option>
+              <option value="14">创维</option>
+              <option value="13">索尼</option>
+              <option value="1">有讯网络</option></select>
+              <input type="text" name="keyword1">
+              <input type="button" value=" 搜索 " class="button">
+            </td>
+          </tr>
+          <tr>
+            <th>可选商品</th>
+            <th>操作</th>
+            <th>该商品的配件</th>
+          </tr>
+          <tr>
+            <td width="42%">
+              <select name="source_select1" size="20" style="width:100%"  multiple="true">
+              </select>
+            </td>
+            <td align="center">
+              <p><input name="is_single" type="radio" value="1" checked="checked">单向关联<br><input name="is_single" type="radio" value="0">双向关联</p>
+              <p><input type="button" value=">>" class="button"></p>
+              <p><input type="button" value=">"  class="button"></p>
+              <p><input type="button" value="<"  class="button"></p>
+              <p><input type="button" value="<<" class="button"></p>
+            </td>
+            <td width="42%">
+              <select name="target_select1" size="20" style="width:100%" multiple="true" >
+                              </select>
+            </td>
+          </tr>
+            </tbody>
+          </table>
+          <table style="display:none;" align ="center">
+            <tbody>
+              <tr>
+            <td colspan="3">
+              <img src="../images/icon_search.gif" width="26" height="22" border="0" alt="SEARCH">
+              文章标题
+              <input type="text" name="keyword1">
+              <input type="button" value=" 搜索 " class="button">
+            </td>
+          </tr>
+          <tr>
+            <th>可选文章</th>
+            <th>操作</th>
+            <th>跟该商品关联的文章</th>
+          </tr>
+          <tr>
+            <td width="42%">
+              <select name="source_select1" size="20" style="width:100%"  multiple="true">
+              </select>
+            </td>
+            <td align="center">
+              <p><input name="is_single" type="radio" value="1" checked="checked">单向关联<br><input name="is_single" type="radio" value="0">双向关联</p>
+              <p><input type="button" value=">>" class="button"></p>
+              <p><input type="button" value=">"  class="button"></p>
+              <p><input type="button" value="<"  class="button"></p>
+              <p><input type="button" value="<<" class="button"></p>
+            </td>
+            <td width="42%">
+              <select name="target_select1" size="20" style="width:100%" multiple="true" >
+                              </select>
+            </td>
+          </tr>
+            </tbody>
+          </table>
+          
+
           <div class="button-div">
           
           <input type="submit" value=" 确定 " class="button">
@@ -85,6 +309,7 @@
 </div>
 
 <script>
+var ue = UE.getEditor('container');
    $(".notice").click(function(){
      if($(".notice-span").css("display")=="none"){
      	$(".notice-span").css("display","block");
@@ -162,6 +387,14 @@
 
    })
 
+  $("#tabbar-div span").click(function(){
+       var index = $(this).index();
+       //console.log(index);
+      $(this).addClass("tab-front").siblings().removeClass("tab-front").addClass("tab-back");
+      $("#tabbody-div").find("table").eq(index).css("display","table").
+                 siblings("table").css("display","none");
+     // console.log($("#test").index());
 
+  });
 
 </script>

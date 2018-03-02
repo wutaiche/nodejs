@@ -51,14 +51,30 @@ $("#changeImg").click(function(){
 console.log (code);
 
 $("#btn").click(function(){
+     console.log(1);
     $.ajax({
       url:"login4ajax",
       type:"post",
       data:{username:$("#username").val(),psw:$("#password").val(),code:code,captcha:$("#captcha").val()},
       success:function(data){
         console.log(data.mes);
+        if (data.code==1){
+           location.href = "/admin";
+        }else{
+          alert("用户名,密码或验证码错误");
+          $("#username").val("");
+          $("#password").val("");
+          $("#captcha").val("");
 
-      }
+
+        }
+
+      },
+      error:function (XMLHttpRequest, textStatus, errorThrown) {
+    // 通常 textStatus 和 errorThrown 之中
+    // 只有一个会包含信息
+       console.log(errorThrown);
+}
 
 
     })

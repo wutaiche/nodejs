@@ -3,6 +3,7 @@ var router = express.Router();
 var userModel = require("../model/userModel");
 var multiparty = require("multiparty");
 var goodsModel = require("../model/goodsModel");
+var md5 = require("md5");
 var fs = require("fs");
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,6 +14,11 @@ router.get("/login",function(req,res){
 	res.render("login",{});
 });
 router.get("/admin",function(req,res){
+  if(req.session == null || req.session.username == null) {
+    // res.render('login', { title: '登录页面' });
+    res.redirect("/login"); // 重定向
+    return;
+  }
 	res.render("admin",{});
 })
 router.get("/goodsList",function(req,res){
@@ -256,13 +262,15 @@ router.post("/login4ajax",function(req,res){
    userModel.find({username:username},function(err,docs){
    	      console.log(docs);
    	    // console.log(docs==true);
-   	     console.log(docs[0].psw==psw);
-       if(docs&&docs[0].psw==psw){//
+   	//     console.log(docs[0].psw==psw);
+       if(docs.length>0 && docs[0].psw==psw){//
           if(code.toUpperCase()!=captcha.toUpperCase()){
              
           
           	result.mes="验证码错误";
           	result.code=-110;
+          }else{
+            req.session.username = username;
           }
 
        }else{

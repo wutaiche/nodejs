@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var mongoose  = require("mongoose");
 mongoose.connect('mongodb://localhost/html5');
 
+var session = require('express-session');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -23,6 +25,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  resave: true, // don't save session if unmodified  
+  saveUninitialized: false, // don't create session until something stored  
+  secret: 'h5_1723' 
+}));
 
 app.use('/', index);
 app.use('/users', users);
