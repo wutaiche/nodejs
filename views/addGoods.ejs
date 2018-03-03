@@ -1,6 +1,9 @@
 <!-- <link rel="stylesheet" href="../stylesheets/style.css"> -->
 	<link rel="stylesheet" href="../stylesheets/addGoods.css">
-
+    <script type="text/javascript" src="../uEditor/ueditor.config.js"></script>
+                      <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="../uEditor/ueditor.all.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../uEditor/lang/zh-cn/zh-cn.js"></script>
 <div class="container"> 
 <div class= "head">
 <p style="float:left;margin-right: 10px"> <a href="#"> ECSHOP 管理中心 </a> - 添加新商品</p>
@@ -83,7 +86,9 @@
                   <td>
                     <textarea id="container" name="content"></textarea>
                     
-                      
+                    <script>
+                      UE.getEditor('container');
+                    </script>
                           
                       
 
@@ -309,7 +314,7 @@
 </div>
 
 <script>
-var ue = UE.getEditor('container');
+ 
    $(".notice").click(function(){
      if($(".notice-span").css("display")=="none"){
      	$(".notice-span").css("display","block");

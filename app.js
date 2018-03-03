@@ -27,8 +27,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   resave: true, // don't save session if unmodified  
-  saveUninitialized: false, // don't create session until something stored  
-  secret: 'h5_1723' 
+  saveUninitialized: true, // don't create session until something stored  
+  secret: 'h5_1723',
+  name:"u23" ,
+  cookie:{maxAge:1000*60*20}
 }));
 
 app.use('/', index);

@@ -59,7 +59,9 @@ $("#btn").click(function(){
       success:function(data){
         console.log(data.mes);
         if (data.code==1){
+        //  window.localStorage.setItem("u_token",data.token);
            location.href = "/admin";
+
         }else{
           alert("用户名,密码或验证码错误");
           $("#username").val("");

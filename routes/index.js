@@ -5,6 +5,7 @@ var multiparty = require("multiparty");
 var goodsModel = require("../model/goodsModel");
 var md5 = require("md5");
 var fs = require("fs");
+var jwt = require("jsonwebtoken");
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -20,6 +21,15 @@ router.get("/admin",function(req,res){
     return;
   }
 	res.render("admin",{});
+})
+router.get("/goods",function(req,res){
+    var goods_num = req.query.goods_num;
+     console.log(goods_num);
+    goodsModel.find({goods_num},function(err,docs){
+         console.log(docs);
+       res.render("goods",{data:docs});
+    })
+
 })
 router.get("/goodsList",function(req,res){
     // goodsModel.find({},function(err,docs){
@@ -242,10 +252,12 @@ router.post("/login4ajax",function(req,res){
    var psw = req.body.psw;
    var code = req.body.code;
    var captcha = req.body.captcha;
+   //var token = "";
    console.log(2);
    var result = {
       code:1,
       mes:"登陆成功"
+      
 
    }
    // // console.log(username);
@@ -271,6 +283,9 @@ router.post("/login4ajax",function(req,res){
           	result.code=-110;
           }else{
             req.session.username = username;
+           // var secret = "abc";
+           // result.token = jwt.sign(username,secret,{expiresIn: 60*60*24  })
+            
           }
 
        }else{
